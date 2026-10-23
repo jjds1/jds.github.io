@@ -308,6 +308,26 @@ a:hover { color: var(--c-accent-hover); text-decoration-color: currentColor; }
 
 /* ---- Work entry --------------------------------------------------- */
 .work-list { container-type: inline-size; container-name: work; }
+
+/* Theme groups: a short trace tick and a sans label above each run of entries. */
+.work-group { padding-top: var(--sp-7); scroll-margin-top: 5rem; }
+.work-group:first-child { padding-top: 0; }
+.work-group__title {
+  display: flex; align-items: center; gap: var(--sp-3);
+  padding-bottom: var(--sp-4);
+  font-family: var(--font-sans);
+  font-size: var(--fs-ui);
+  line-height: var(--lh-sans);
+  font-weight: 600;
+  color: var(--c-ink);
+}
+.work-group__title::before {
+  content: "";
+  flex: none;
+  inline-size: 1.5rem;
+  block-size: 2px;
+  background: var(--c-trace);
+}
 .work {
   display: grid;
   gap: var(--sp-5);
