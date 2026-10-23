@@ -1,8 +1,8 @@
 # Design: Joshua de Souza portfolio (2026)
 
 Source of truth for the site's look. Tokens live in `assets/css/tokens.css`.
-The reference implementation of the hero, a work entry and a timeline item is
-`design/prototype.html` + `design/prototype.css`. Lift from those files.
+The implementation is `index.html` + `assets/css/site.css`. This file is not
+published (the deploy workflow publishes an allow-list of files only).
 
 ## Direction: "instrument record"
 
@@ -22,9 +22,10 @@ sizes, sets the name at display size, the headings and the body. It gives the
 page the voice of a journal article and a senior scientist. Atkinson
 Hyperlegible Next, designed with the Braille Institute for low-vision
 readers, sets every piece of evidence and metadata: dates, places, patent
-numbers, awards. The choice fits the brief's accessibility theme, and its
-default slashed zero reads like an instrument readout in "WO2022241322"
-without needing a monospace face. Rule of thumb: **serif makes the claim, sans
+numbers, awards. The choice fits the accessibility theme. Atkinson ships only a slashed zero
+(no unslashed alternate in its OpenType features), which looked odd in years,
+so digits 0–9 in sans text come from Newsreader via a `unicode-range` face
+named "Figures" in `tokens.css`. Rule of thumb: **serif makes the claim, sans
 carries the evidence.**
 
 We avoided some defaults on purpose. There are no cards, shadows or gradients.
@@ -53,7 +54,7 @@ with an axis, because it is the only true sequence.
 - Sentence case everywhere. No all caps, no letter-spaced labels.
 - Italic (Newsreader 400 italic) is for titles of papers and journals in Publications only.
 - `text-wrap: balance` on h1–h3. `text-wrap: pretty` on paragraphs.
-- Numerals: serif body uses old-style numerals. The sans uses lining numerals. The timeline uses tabular numerals.
+- Numerals: serif body uses old-style numerals. The sans uses lining numerals, drawn from Newsreader (see above). The timeline uses tabular numerals.
 
 ## Color
 
@@ -96,7 +97,7 @@ a status color is ever needed, add it as a token. Don't introduce one ad hoc.
 - Sticky top bar: background is `--c-bg` at 88% with an 8 px backdrop blur and a 1 px `--c-rule` bottom border. Height is about 46 px.
 - Left: the name in Atkinson 640 at 14 px, linking to `#top`. Right: Work, Recognition, Career, Publications, Contact.
 - Links use `--c-ink-2`. Hover uses `--c-ink`. The current section gets `aria-current="true"`, `--c-ink` and a 2 px `--c-trace` underline that sits on the bar's border.
-- Mobile (<48rem): two rows. The name sits on top. The links sit below in a horizontally scrollable row with a right-edge fade mask. No hamburger, since there are only five links.
+- Mobile (<48rem): two rows. The name sits on top. The links sit below, spread across the row; at 390 px all five fit. On narrower screens the row scrolls horizontally inside itself, and `site.js` adds a fade on the edge that has more links. No hamburger, since there are only five links.
 - Scrollspy is optional (an IntersectionObserver in an external JS file). Without JS, nothing is marked current. That is fine.
 
 ### Hero
@@ -139,7 +140,7 @@ a status color is ever needed, add it as a token. Don't introduce one ad hoc.
 ### Publications and patents (spec)
 - Use two groups, Patents and Selected publications, each as an `<ol>` in cols 4–10.
 - Each item: the title in Newsreader italic for papers or roman for patents, then a sans 14 px line with authors (bold his name variant with `<strong>`, Atkinson 640), venue, year and identifier link. Venue and year use `--c-ink-3`.
-- End with "All publications on Google Scholar" linking `#scholar` (**TODO: real URL**).
+- End with "All publications on Google Scholar" linking `#` (**TODO: real URL**).
 
 ### Contact (spec)
 - One serif lead sentence, then 2–3 links set as larger sans (16 px, 640 weight, accent underline): LinkedIn, Email, Johns Hopkins profile.
@@ -179,11 +180,11 @@ a status color is ever needed, add it as a token. Don't introduce one ad hoc.
 - **CSP:** the prototype has no inline `<script>`, no `style=""` and no inline `<style>`. Inline `<svg>` with presentation done by classes is fine. The trace `d` attribute is about 7 KB inline. It could move to an external `.svg` via `<img>`, but CSS can't reach the stroke color there. Keep it inline.
 - **Fonts** (120 KB total, all SIL OFL 1.1): `newsreader-roman-var.woff2` (65 KB, wght 400–560, opsz 20–72), `newsreader-italic-400.woff2` (23 KB), `atkinson-hyperlegible-next-var.woff2` (32 KB, wght 200–800). All are Latin subsets including curly quotes, dashes, ×, ≤ ≥ and arrows. Preload the two roman files with `crossorigin`. Any weight outside these ranges will be synthesised, so don't use them.
 - The page uses `light-dark()` (Baseline 2024). Older browsers fall back to the browser default colors. If that matters, add plain light values before each `light-dark()` declaration.
-- Previewing over `file://` blocks the fonts (CORS). Serve the repo over HTTP, e.g. `python3 -m http.server` from the parent directory, and open `/jds.github.io/design/prototype.html`.
-- `design/` is a reference and can be deleted or excluded once the real page is built.
+- Previewing over `file://` blocks the fonts (CORS). Serve the repo over HTTP, e.g. `python3 -m http.server` from the parent directory, and open `/jds.github.io/`.
+- `frame-ancestors` is ignored in a `<meta>` CSP, so framing protection needs a real header (see DEPLOY.md, Cloudflare).
 
 ## TODO (copy to confirm with Joshua)
-- Google Scholar URL (`#scholar` placeholder).
+- Google Scholar URL (`#` placeholder).
 - Exact career years, which are currently shown as ranges.
 - Public wording for the Gates preeclampsia project.
 - Whether to use a dedicated contact email address.

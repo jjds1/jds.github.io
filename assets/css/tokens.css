@@ -23,6 +23,20 @@
   font-style: italic;
   font-display: swap;
 }
+/* Figures for the sans stack. Atkinson Hyperlegible Next only ships a
+   slashed zero (its tnum "zero" is a component copy of the same slashed
+   glyph, and there is no "zero"/ssXX/cvXX alternate), so digits 0-9 in sans
+   text are drawn from Newsreader instead. Cap heights match (0.668 vs 0.670
+   em). The weight range is declared wider than the file's 400-560 axis so
+   the browser clamps instead of synthesising bold at 640. */
+@font-face {
+  font-family: "Figures";
+  src: url("../fonts/newsreader-roman-var.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
 @font-face {
   font-family: "Atkinson Hyperlegible Next";
   src: url("../fonts/atkinson-hyperlegible-next-var.woff2") format("woff2");
@@ -53,7 +67,7 @@
 
   /* ---- Typography ---------------------------------------------------- */
   --font-serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  --font-sans: "Atkinson Hyperlegible Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-sans: "Figures", "Atkinson Hyperlegible Next", "Segoe UI", system-ui, -apple-system, sans-serif;
 
   /* Scale: Bringhurst's classic sequence (px) 13 14 16 18 21 24 36 48 72,
      with fluid ends. 1rem = 16px. */
