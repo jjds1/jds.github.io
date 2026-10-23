@@ -1,0 +1,18 @@
+# OS and editor clutter
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Local build output and tooling
+_site/
+node_modules/
+__pycache__/
+*.log
+
+# Never commit secrets
+.env
+.env.*
+*.pem
+*.key

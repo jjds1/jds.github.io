@@ -1,0 +1,153 @@
+/* ==========================================================================
+   Design tokens: Joshua de Souza portfolio
+   Direction: "Instrument record". A cool chart-paper ground, deep ink,
+   one petrol accent, and a single physiological trace as the signature.
+   See DESIGN.md for rationale and component specs.
+   ========================================================================== */
+
+/* ---- Fonts (self-hosted, SIL OFL 1.1; see assets/fonts/LICENSE-*.txt) ----
+   Newsreader roman: variable, wght 400–560, opsz 20–72, Latin subset.
+   Newsreader italic: static 400, Latin subset.
+   Atkinson Hyperlegible Next: variable, wght 200–800, Latin subset.      */
+@font-face {
+  font-family: "Newsreader";
+  src: url("../fonts/newsreader-roman-var.woff2") format("woff2");
+  font-weight: 400 560;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Newsreader";
+  src: url("../fonts/newsreader-italic-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+/* Figures for the sans stack. Atkinson Hyperlegible Next only ships a
+   slashed zero (its tnum "zero" is a component copy of the same slashed
+   glyph, and there is no "zero"/ssXX/cvXX alternate), so digits 0-9 in sans
+   text are drawn from Newsreader instead. Cap heights match (0.668 vs 0.670
+   em). The weight range is declared wider than the file's 400-560 axis so
+   the browser clamps instead of synthesising bold at 640. */
+@font-face {
+  font-family: "Figures";
+  src: url("../fonts/newsreader-roman-var.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("../fonts/atkinson-hyperlegible-next-var.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Follows the OS by default. An optional toggle can set
+     <html data-theme="light|dark">; every color below uses light-dark(). */
+  color-scheme: light dark;
+
+  /* ---- Color (OKLCH; sRGB hex in comments; contrast vs --c-bg) -------- */
+  /*                         light                          dark                         */
+  --c-bg:        light-dark(oklch(97.6% 0.006 230),  oklch(20.5% 0.022 252)); /* #f3f8fa / #101821  chart paper / night screen */
+  --c-surface:   light-dark(oklch(99.3% 0.003 230),  oklch(24% 0.024 252));   /* #fbfdfe / #17202a  raised panels, nav on scroll */
+  --c-ink:       light-dark(oklch(25% 0.03 252),     oklch(94% 0.008 230));   /* #172330 / #e6ecef  14.9:1 / 15.0:1 */
+  --c-ink-2:     light-dark(oklch(44% 0.025 250),    oklch(80% 0.015 235));   /* #485460 / #b5bfc6  7.2:1 / 9.6:1  secondary text */
+  --c-ink-3:     light-dark(oklch(53% 0.02 250),     oklch(70% 0.02 240));    /* ~#646e78 / ~#939fa9  >=4.9:1 / >=6.5:1  meta, annotations */
+  --c-rule:      light-dark(oklch(87% 0.012 240),    oklch(34% 0.025 250));   /* #cdd5db / #2e3945  dividers (non-text) */
+  --c-grid:      light-dark(oklch(90.5% 0.016 228),  oklch(27.5% 0.026 250)); /* chart-paper minor lines */
+  --c-grid-major:light-dark(oklch(85% 0.022 228),    oklch(32% 0.03 248));    /* chart-paper major lines */
+  --c-accent:    light-dark(oklch(47% 0.105 225),    oklch(80% 0.105 215));   /* #006687 / #62cfe8  6.1:1 / 9.9:1  links, focus */
+  --c-accent-hover: light-dark(oklch(38% 0.1 228),   oklch(88% 0.08 212));
+  --c-trace:     light-dark(oklch(40% 0.09 232),     oklch(82% 0.11 205));    /* the signal line */
+  --c-select:    light-dark(oklch(88% 0.05 220),     oklch(36% 0.07 225));    /* ::selection */
+
+  /* ---- Typography ---------------------------------------------------- */
+  --font-serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-sans: "Figures", "Atkinson Hyperlegible Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* Scale: Bringhurst's classic sequence (px) 13 14 16 18 21 24 36 48 72,
+     with fluid ends. 1rem = 16px. */
+  --fs-meta:    0.8125rem;  /* 13  sans  annotations on the trace, legal */
+  --fs-small:   0.875rem;   /* 14  sans  meta, nav, evidence labels */
+  --fs-ui:      1rem;       /* 16  sans  buttons, timeline place names */
+  --fs-body:    1.125rem;   /* 18  serif body copy */
+  --fs-lead:    clamp(1.3125rem, 1.15rem + 0.6vw, 1.5rem);   /* 21 -> 24  serif lead / mission */
+  --fs-h3:      clamp(1.3125rem, 1.2rem + 0.45vw, 1.5rem);   /* 21 -> 24  work title */
+  --fs-h2:      clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);      /* 24 -> 36  section heading */
+  --fs-stat:    clamp(2.25rem, 1.8rem + 1.6vw, 3rem);        /* 36 -> 48  stat numerals */
+  --fs-display: clamp(3rem, 1.7rem + 5.6vw, 6rem);           /* 48 -> 96  name */
+
+  --lh-display: 0.98;
+  --lh-heading: 1.15;
+  --lh-serif:   1.55;   /* serif body gets more air than sans */
+  --lh-sans:    1.45;
+
+  --wght-body: 400;
+  --wght-display: 430;   /* Newsreader at opsz 72 reads best slightly above book */
+  --wght-heading: 480;
+  --wght-sans: 430;
+  --wght-sans-strong: 640;
+
+  --track-display: -0.022em;
+  --track-heading: -0.01em;
+  --track-sans-small: 0.01em;
+
+  --measure: 66ch;        /* body copy max line length */
+  --measure-narrow: 52ch; /* lead / mission */
+
+  /* ---- Space (4px base; doubles after 16) ---------------------------- */
+  --sp-1: 0.25rem;  /*  4 */
+  --sp-2: 0.5rem;   /*  8 */
+  --sp-3: 0.75rem;  /* 12 */
+  --sp-4: 1rem;     /* 16 */
+  --sp-5: 1.5rem;   /* 24 */
+  --sp-6: 2rem;     /* 32 */
+  --sp-7: 3rem;     /* 48 */
+  --sp-8: 4rem;     /* 64 */
+  --sp-9: 6rem;     /* 96 */
+  --sp-10: 8rem;    /* 128 */
+  --sp-section: clamp(4rem, 2.5rem + 6vw, 8rem); /* between major sections */
+
+  /* ---- Grid ---------------------------------------------------------- */
+  --page-max: 80rem;                               /* 1280 */
+  --page-gutter: clamp(1rem, 0.4rem + 3vw, 3rem);  /* 16 at 375 -> 48 at 1440 */
+  --grid-cols: 12;
+  --grid-gap: clamp(1rem, 0.6rem + 1vw, 1.5rem);   /* 16 -> 24 */
+  /* Desktop columns: margin (1–3) | main (4–10) | aside (11–12) */
+
+  /* ---- Lines, radius, focus ------------------------------------------ */
+  --line: 1px;
+  --line-strong: 2px;
+  --trace-width: 1.6px;
+  --radius-0: 0;
+  --radius-1: 2px;        /* focus rings, tiny chips */
+  --radius-portrait: 4px; /* optional headshot only */
+  --focus-ring: 2px solid var(--c-accent);
+  --focus-offset: 3px;
+
+  /* Chart-paper grid: 8px minor, 40px major (5 x 5, as on ECG paper) */
+  --paper-minor: 8px;
+  --paper-major: 40px;
+
+  /* ---- Motion -------------------------------------------------------- */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-trace: cubic-bezier(0.45, 0.05, 0.25, 1);
+  --dur-fast: 120ms;   /* link underline, focus */
+  --dur-base: 220ms;   /* disclosure open/close */
+  --dur-trace: 2400ms; /* the single page-load moment */
+}
+
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-trace: 0ms;
+  }
+}

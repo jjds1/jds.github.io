@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jjds1.github.io/jds.github.io/sitemap.xml
